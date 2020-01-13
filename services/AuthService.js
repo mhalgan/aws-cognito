@@ -45,3 +45,29 @@ exports.Register = function(body, callback) {
     callback(null, cognitoUser);
   });
 };
+
+exports.Login = function(body, callback) {
+  let userName = body.name;
+  let password = body.password;
+
+  let authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails({
+    Username: userName,
+    Password: password
+  });
+
+  let userData = {
+    Username: userName,
+    Pool: userPool
+  };
+
+  let cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+  cognitoUser.authenticateUser(authenticationDetails, {
+    onSuccess: function(result) {
+      let accessToken = result.getAccessToken().getJwtToken();
+      callback(null, accessToken);
+    },
+    onFailure: function(err) {
+      callback(err);
+    }
+  });
+};
