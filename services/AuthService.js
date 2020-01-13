@@ -3,7 +3,7 @@ global.navigator = () => null;
 
 const AmazonCognitoIdentity = require("amazon-cognito-identity-js");
 const request = require("request");
-const pems = require("jwk-to-pem");
+const jwkToPem = require("jwk-to-pem");
 const jwt = require("jsonwebtoken");
 
 const poolData = {
@@ -79,12 +79,12 @@ exports.Login = function(body, callback) {
 exports.Validate = function(token, callback) {
   request(
     {
-      url: `https://cognitoidp.${pool_region}.amazonaws.com/${poolData.UserPoolId}/.well-known/jwks.json`,
+      url: `https://cognito-idp.${pool_region}.amazonaws.com/${poolData.UserPoolId}/.well-known/jwks.json`,
       json: true
     },
     function(err, response, body) {
       if (!err && response.statusCode === 200) {
-        pems = {};
+        let pems = {};
         let keys = body["keys"];
 
         for (let i = 0; i < keys.length; i++) {
@@ -121,7 +121,7 @@ exports.Validate = function(token, callback) {
         });
       } else {
         console.log("Error! Unable to download JWKs");
-        callback(error);
+        callback(err);
       }
     }
   );
