@@ -18,3 +18,12 @@ exports.login = function(req, res) {
     res.send(result);
   });
 };
+
+exports.validate_token = function(req, res) {
+  let validate = authService.Validate(req.body.token, function(err, result) {
+    if (err) {
+      res.send(err.message);
+    }
+    res.send(result);
+  });
+};
