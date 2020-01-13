@@ -1,6 +1,11 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 
+const routes = require("./routes");
 const app = express();
-app.get("/", (req, res) => res.send("Hello world!"));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use("/auth", routes);
 
 module.exports = app;
