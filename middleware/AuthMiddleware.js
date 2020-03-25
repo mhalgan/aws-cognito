@@ -7,8 +7,8 @@ const jwkToPem = require("jwk-to-pem");
 const jwt = require("jsonwebtoken");
 
 const poolData = {
-  UserPoolId: "us-east-1_2z56dBsZt",
-  ClientId: "5j7snlk13h40hrl6qft8bqclhg"
+  UserPoolId: "",
+  ClientId: ""
 };
 
 const pool_region = "us-east-1";
